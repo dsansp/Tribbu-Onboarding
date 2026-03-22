@@ -1,6 +1,6 @@
 """Test de Onboarding basado en onboarding-tribbu-maestro.yaml"""
 from threading import Thread
-
+import allure
 import pytest
 from src.app_launcher import AppLauncher
 from src.pages import otp_page
@@ -23,6 +23,17 @@ from src.pages.trayecto_page import TrayectoPage
 
 
 @pytest.mark.onboarding
+@allure.epic("Onboarding de Usuario")
+@allure.feature("Flujo de Onboarding")
+@allure.description("""
+        Este test verifica:
+        1. El flujo hasta iniciar un trayecto por primera vez.
+        2. La validación de un DNI repetido.
+        3. La validación de un código de amigo.
+        4. El mensaje y color del toast después de cada validación.
+        5. La validacion del OTP.
+        6. La correcta carga de todos los elementos esperados.
+    """)
 class TestOnboarding:
     """Tests para el flujo de Onboarding"""
 
@@ -40,6 +51,7 @@ class TestOnboarding:
         driver = app_launcher.launch_app(
             app_id=APP_ID
         )
+    
     def test_complete_onboarding(self, driver):  
         """Verifica que el flujo de onboarding se completa correctamente"""
         onboarding_page = OnboardingPage(driver)

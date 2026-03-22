@@ -1,4 +1,5 @@
 """Page Object para las pantallas de Onboarding"""
+import allure
 from socket import timeout
 
 from appium.webdriver.common.appiumby import AppiumBy
@@ -28,12 +29,12 @@ class DniCertificadosPage(BasePage):
         except TimeoutException:
             print(f"✗ Texto de introducción NO visible en {timeout}s")
             return False
-   
+    @allure.step("Rellenando el campo de DNI")
     def enter_dni(self, dni):
        enteredDni = self.wait_for_element_visible(DniLocators.EDIT_TEXT, timeout=10)
        enteredDni.send_keys(dni)
        print(f"✓ DNI '{dni}' ingresado")
-
+    @allure.step("Limpiando el campo de DNI")
     def clear_dni_field(self):
         """Limpia el campo de DNI de forma segura"""
         element = self.driver.find_element(*DniLocators.EDIT_TEXT)
@@ -43,13 +44,14 @@ class DniCertificadosPage(BasePage):
             'elementId': element.id, 
             'text': ''})
         print("✓ Campo DNI limpiado")
-
+    @allure.step("Verificando si el botón 'Activar' está habilitado")
     def verificar_Activar_button_enabled(self):
             self.wait(3)
             button = self.find_element_by_locator(DniLocators.ACTIVAR_BUTTON_XPATH)
             button_enabled= button.get_attribute("clickable")=="true"
             print(f"Botón 'Activar' enabled: {button_enabled}")
             return button_enabled
+    @allure.step("Verificando si el botón 'Activar' está habilitado")
     def check_Activar_button_enabled(self, timeout=10):
         try:
             self.wait_for_element_clickable(DniLocators.ACTIVAR_BUTTON_XPATH, timeout=timeout)
@@ -58,6 +60,7 @@ class DniCertificadosPage(BasePage):
         except TimeoutException:
             print(f"✗ Botón 'Activar' NO habilitado en {timeout}s")
             return False
+    @allure.step("Haciendo clic en el botón 'Activar'")
     def click_Activar_button(self):
         try:
             self.wait(3)
