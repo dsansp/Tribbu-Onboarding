@@ -120,6 +120,70 @@ python -m pytest test_onboarding.py -v --cache-clear
 pytest tests/ -v
 ```
 
+## Reportes Allure
+
+El framework incluye integración con **Allure Reports** para generar reportes detallados de ejecución de tests.
+
+### Instalación de Allure Command Line
+
+```bash
+# Windows (con Scoop)
+scoop install allure
+
+# Windows (con Chocolatey)
+choco install allure
+
+# macOS (con Homebrew)
+brew install allure
+
+# Linux
+sudo apt-add-repository ppa:qameta/allure
+sudo apt-get update
+sudo apt-get install allure
+```
+
+### Generar Reporte
+
+```bash
+# Ejecutar tests y generar resultados de Allure
+pytest tests/ --alluredir=allure-results
+
+# Ejecutar test específico con Allure
+python -m pytest tests/test_onboarding.py -v --cache-clear --alluredir=allure-results
+```
+
+### Visualizar Reporte
+
+```bash
+# Generar y abrir reporte en navegador
+allure serve allure-results
+
+# O generar reporte estático
+allure generate allure-results -o allure-report
+allure open allure-report
+```
+
+### Estructura del Reporte
+
+Los tests incluyen anotaciones Allure para una mejor organización:
+
+| Anotación | Descripción |
+|-----------|-------------|
+| `@allure.feature()` | Agrupa tests por funcionalidad principal |
+| `@allure.story()` | Describe la historia de usuario dentro de la feature |
+| `@allure.severity()` | Prioridad: blocker, critical, normal, minor, trivial |
+| `@allure.step()` | Pasos detallados dentro de cada test |
+| `@allure.attach()` | Screenshots automáticos en caso de fallo |
+
+### Ejemplo de Reporte
+
+El reporte mostrará:
+- Timeline de ejecución
+- Pasos detallados de cada test
+- Screenshots en fallos
+- Estadísticas por feature y severity
+- Historial de ejecuciones
+
 ## Iniciar Appium Server
 
 ```bash

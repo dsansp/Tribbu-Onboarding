@@ -1,4 +1,5 @@
 """Page Object para las pantallas de Onboarding"""
+import allure
 from socket import timeout
 
 from appium.webdriver.common.appiumby import AppiumBy
@@ -15,6 +16,7 @@ class OtpPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
+    @allure.step("Esperar texto visible en página OTP")
     def wait_text_visible(self, timeout=20):
         """
         Espera al texto específico de la pagina sea visible."""
@@ -30,16 +32,20 @@ class OtpPage(BasePage):
             print(f"✗ Texto de introducción NO visible en {timeout}s")
             return False
    
+    @allure.step("Ingresar código OTP: {otp_number}")
     def enter_Otp_number(self, locator, otp_number):
         edit_text = self.wait_for_element_visible(locator, timeout=10)
         edit_text.send_keys(otp_number)
         print(f"✓ Código de verificación '{otp_number}' ingresado")
 
+    @allure.step("Verificar checkbox marcado")
     def verificar_checkbox_marked(self, locator):
         checkbox = self.find_element_by_locator(locator)
         is_checked = checkbox.get_attribute("checked") == "true"
         print(f"Checkbox marcado: {is_checked}")
         return is_checked
+
+    @allure.step("Verificar botón 'Siguiente' habilitado")
     def verificar_Siguiente_button_enabled(self):
         self.wait_button_10
         button = self.find_element_by_locator(OtpLocators.SIGUIENTE_ALL_BUTTON)
@@ -47,10 +53,12 @@ class OtpPage(BasePage):
         print(f"Botón 'Siguiente' enabled: {button_enabled}")
         return button_enabled
     
+    @allure.step("Tapear botón 'Siguiente'")
     def tap_Siguiente_button(self):
         self.wait_for_element_clickable(OtpLocators.SIGUIENTE_ALL_BUTTON, timeout=10)
         self.click_element(OtpLocators.SIGUIENTE_ALL_BUTTON)
 
+    @allure.step("Esperar Toast visible")
     def waitToastVisible(self, timeout=30):
         try:
             self.wait_for_element_visible(OtpLocators.TOAST, timeout=timeout)
@@ -61,6 +69,7 @@ class OtpPage(BasePage):
             return False
         
 
+    @allure.step("Verificar color del Toast")
     def verificar_toast_color(self, expected_color):
        
             toast_element = self.wait_for_element_visible(OtpLocators.TOAST, timeout=10)
