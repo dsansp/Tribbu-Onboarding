@@ -92,14 +92,6 @@ class OnboardingPage(BasePage):
     
     def tap_Entrar_button(self):
         self.wait_for_element_clickable(TypeUserLocators.ENTRAR_BUTTON, timeout=10)
-       
-
-    def complete_onboarding_flow(self):
-        # Pasar por las pantallas de onboarding
-        for _ in self.ONBOARDING_TEXTS:
-            self.tap_continue_button()
-        
-        self.tap_start_button()
 
     def allow_notifications(self):
         possible_locators = [

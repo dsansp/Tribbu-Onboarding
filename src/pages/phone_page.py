@@ -34,10 +34,8 @@ class PhonePage(BasePage):
         checkbox = self.wait_for_element_clickable(locator, timeout=30)
         
         if checkbox is None:
-            # Opcional: loguea o lanza excepción según tu estrategia de test
             print(f"→ Checkbox no encontrado o no clickable después de 30s: {locator}")
-            # raise AssertionError(f"Checkbox no disponible: {locator}")  # si quieres que falle el test
-            return False  # o return para omitir
+            return False  
         
         if not checkbox.is_selected():
             checkbox.click()

@@ -46,9 +46,7 @@ class TestOnboarding:
         phone_page = PhonePage(driver)
         otp_page = OtpPage(driver)
         names_page = NamesPages(driver)
-        dashboard_page = DashboardPage(driver)
         dni_page = DniCertificadosPage(driver)
-        menu_page = MenuPage(driver)
         amigo_page = AmigoPage(driver)
         trayecto_page = TrayectoPage(driver)
         onboarding_page.allow_notifications() 
@@ -119,7 +117,6 @@ class TestOnboarding:
         dni_page.clear_dni_field()
         dni_page.enter_dni(new_dni)
               
-        # assert dni_page.verificar_Activar_button_enabled() == True, "El botón 'Activar' no se habilitó después de ingresar el DNI"
         assert dni_page.click_Activar_button() == True, "El botón 'Activar' no se habilitó después de ingresar el DNI"
         assert amigo_page.wait_text_visible(timeout=20)
         amigo_page.enter_codigo_amigo("MARIOM-0956")

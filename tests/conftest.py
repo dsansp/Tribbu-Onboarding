@@ -18,7 +18,6 @@ def driver(request):
 
     yield driver_instance
 
-    # Teardown: cierra bien (usa terminate_app si quieres mantener sesión viva, o quit)
     try:
         driver_instance.terminate_app("com.hoopcarpool.staging")  
     except:

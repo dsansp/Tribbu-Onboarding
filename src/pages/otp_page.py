@@ -60,16 +60,6 @@ class OtpPage(BasePage):
             print("✗ Toast NO visible en {timeout}s")
             return False
         
-    # def getToast(self, timeout=30):
-    #     try:
-    #         self.wait_for_element_visible(OtpLocators.TOAST, timeout=10)
-    #         toast_element = self.get_element(OtpLocators.TOAST)
-    #         actual_message = toast_element.text
-    #         print(f"Toast capturado: '{actual_message}'")
-    #         return toast_element
-    #     except TimeoutException:
-    #         print("✗ Toast NO visible para obtener mensaje")
-    #         return None
 
     def verificar_toast_color(self, expected_color):
        

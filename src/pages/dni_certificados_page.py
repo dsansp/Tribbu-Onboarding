@@ -68,23 +68,3 @@ class DniCertificadosPage(BasePage):
         except TimeoutException:
             print(f"✗ No se encontró el botón 'Activar' en {timeout}s")
             return False
-    # def get_toast_message(self, timeout=5):
-    #     try:
-    #         toast_element = self.wait_for_element_visible(DniLocators.TOAST, timeout=timeout)
-    #         toast_message = toast_element.get_attribute("text")
-    #         print(f"Mensaje del toast: '{toast_message}'")
-    #         return toast_message
-    #     except TimeoutException:
-    #         print(f"✗ No se encontró el toast en {timeout}s")
-    #         return None
-    # def getToast(self, timeout=30):
-    #     try:
-    #         self.wait_for_element_visible(DniLocators.TOAST, timeout=10)
-    #         toast_element = self.get_element(DniLocators.TOAST)
-    #         actual_message = toast_element.text
-    #         print(f"Toast capturado: '{actual_message}'")
-    #         return toast_element
-    #     except TimeoutException:
-    #         print("✗ Toast NO visible para obtener mensaje")
-    #         return None
-   
