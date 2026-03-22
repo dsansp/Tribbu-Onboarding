@@ -13,6 +13,7 @@ class PhonePage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
+    @allure.step("Esperar texto visible de la página")
     def wait_text_visible(self, timeout=20):
         """
         Espera al texto específico de la pagina sea visible."""
@@ -28,6 +29,7 @@ class PhonePage(BasePage):
             print(f"✗ Texto de introducción NO visible en {timeout}s")
             return False
 
+    @allure.step("Marcar checkbox de términos")
     def check_checkbox(self, locator):
         self.wait(2)
         checkbox = self.wait_for_element_clickable(locator, timeout=30)
@@ -55,12 +57,14 @@ class PhonePage(BasePage):
         is_checked = checkbox.get_attribute("checked") == "true"
         print(f"Checkbox marcado: {is_checked}")
         return is_checked
+    @allure.step("Verificar que el botón 'Siguiente' esté habilitado")
     def verificar_Siguiente_button_enabled(self):
         button = self.find_element_by_locator(PhoneLocators.SIGUIENTE_ALL_BUTTON)
         button_enabled= button.get_attribute("clickable")=="true"
         print(f"Botón 'Siguiente' enabled: {button_enabled}")
         return button_enabled
     
+    @allure.step("Presionar botón 'Siguiente'")
     def tap_Siguiente_button(self):
         self.wait_for_element_clickable(PhoneLocators.SIGUIENTE_ALL_BUTTON_BUTTON, timeout=10)
         self.click_element(PhoneLocators.SIGUIENTE_ALL_BUTTON)

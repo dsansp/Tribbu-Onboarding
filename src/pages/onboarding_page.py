@@ -1,4 +1,5 @@
 """Page Object para las pantallas de Onboarding"""
+import allure
 from socket import timeout
 
 from appium.webdriver.common.appiumby import AppiumBy
@@ -14,6 +15,7 @@ class OnboardingPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
+    @allure.step("Verificar views visibles (instance {inicio} a {fin})")
     def verificar_views_visibles(self, inicio, fin, timeout=12):
         """
         Verifica que las vistas (instance N a M) sean visibles.
@@ -45,6 +47,7 @@ class OnboardingPage(BasePage):
 
 
 
+    @allure.step("Contar opciones de tipo de usuario")
     def get_type_user_options_count(self):
         """
         Cuenta cuántos elementos (opciones/botones) están cargados en la pantalla de tipo de usuario.
@@ -75,24 +78,29 @@ class OnboardingPage(BasePage):
         
         return count
 
+    @allure.step("Seleccionar opción Conductor (Be No Sé)")
     def select_driver_actions(self):
         self.wait_for_element_clickable(TypeUserLocators.CONDUCTOR_BE_NO_SE, timeout=10)
 
                
+    @allure.step("Seleccionar opción Conductor For Me/Ambas")
     def select_travel_actions(self): 
         self.wait_for_element_clickable(TypeUserLocators.CONDUCTORS_FOR_ME_AMBAS, timeout=10)
       
 
 
+    @allure.step("Verificar botón 'Entrar' habilitado")
     def verificar_Entrar_button_enabled(self):
         button = self.find_element_by_locator(TypeUserLocators.ENTRAR_BOX_BUTTON)
         button_enabled= button.get_attribute("clickable")=="true"
         print(f"Botón 'Entrar' enabled: {button_enabled}")
         return button_enabled
     
+    @allure.step("Tapar botón 'Entrar'")
     def tap_Entrar_button(self):
         self.wait_for_element_clickable(TypeUserLocators.ENTRAR_BUTTON, timeout=10)
 
+    @allure.step("Permitir notificaciones")
     def allow_notifications(self):
         possible_locators = [
             (AppiumBy.ID, 'com.android.permissioncontroller:id/permission_allow_button'),
