@@ -1,8 +1,7 @@
 """Page Object para las pantallas de Onboarding"""
+import allure
 from socket import timeout
-
 from appium.webdriver.common.appiumby import AppiumBy
-
 from src.pages import BasePage
 from src.pages.locators.phone_locators import PhoneLocators
 from selenium.common.exceptions import TimeoutException
@@ -14,6 +13,7 @@ class PhonePage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
+    @allure.step("Esperar texto visible de la página")
     def wait_text_visible(self, timeout=20):
         """
         Espera al texto específico de la pagina sea visible."""
@@ -29,6 +29,7 @@ class PhonePage(BasePage):
             print(f"✗ Texto de introducción NO visible en {timeout}s")
             return False
 
+    @allure.step("Marcar checkbox de términos")
     def check_checkbox(self, locator):
         self.wait(2)
         checkbox = self.wait_for_element_clickable(locator, timeout=30)
@@ -43,24 +44,27 @@ class PhonePage(BasePage):
 
         else:
             print("→ Checkbox ya estaba marcado")
-
+    @allure.step("introduciendo el número de teléfono")
     def enter_phone_number(self, locator, phone_number):
         edit_text = self.wait_for_element_visible(locator, timeout=10)
         edit_text.send_keys(phone_number)
         print(f"✓ Número de teléfono '{phone_number}' ingresado")
 
+    @allure.step("verificando que el checkbox esté marcado")
     def verificar_checkbox_marked(self, locator):
         self.driver.hide_keyboard()
         checkbox = self.find_element_by_locator(locator)
         is_checked = checkbox.get_attribute("checked") == "true"
         print(f"Checkbox marcado: {is_checked}")
         return is_checked
+    @allure.step("Verificar que el botón 'Siguiente' esté habilitado")
     def verificar_Siguiente_button_enabled(self):
         button = self.find_element_by_locator(PhoneLocators.SIGUIENTE_ALL_BUTTON)
         button_enabled= button.get_attribute("clickable")=="true"
         print(f"Botón 'Siguiente' enabled: {button_enabled}")
         return button_enabled
     
+    @allure.step("Presionar botón 'Siguiente'")
     def tap_Siguiente_button(self):
         self.wait_for_element_clickable(PhoneLocators.SIGUIENTE_ALL_BUTTON_BUTTON, timeout=10)
         self.click_element(PhoneLocators.SIGUIENTE_ALL_BUTTON)

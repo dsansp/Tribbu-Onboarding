@@ -1,4 +1,5 @@
 # src/pages/basepage.py
+import allure
 from appium.webdriver.common.appiumby import AppiumBy
 from src import driver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,24 +8,31 @@ from selenium.common.exceptions import TimeoutException
 from PIL import Image
 import io
 import os
+
 class BasePage:
     def __init__(self, driver):
         self.driver = driver
 
+    @allure.step("Find element by text: {text}")
     def find_element_by_text(self, text, timeout=15):
         """Encuentra elemento por texto exacto (usando UiSelector o XPath)"""
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{text}")')
         return self.driver.find_element(*locator)
 
+    @allure.step("Find element containing text: {text}")
     def find_element_by_text_contains(self, text, timeout=15):
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().textContains("{text}")')
         return self.driver.find_element(*locator)
 
+    @allure.step("Find element by locator")
     def find_element_by_locator(self, locator, timeout=15):
         return self.driver.find_element(*locator)
     
+    @allure.step("Click element")
     def click_element(self, element):
         self.driver.find_element(*element).click()
+
+    @allure.step("Get element")
     def get_element(self, locator, timeout=15):
         return self.driver.find_element(*locator)
     
@@ -33,22 +41,26 @@ class BasePage:
             from selenium.webdriver.support.ui import WebDriverWait
             return WebDriverWait(self.driver, timeout)
 
+    @allure.step("Wait for element with text: {text}")
     def wait_for_element_by_text(self, text, timeout=15):
         """Espera a que un elemento con texto específico esté presente"""
         locator = (AppiumBy.ANDROID_UIAUTOMATOR, f'new UiSelector().text("{text}")')
 
         return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located(locator))
     
+    @allure.step("Wait for element clickable and click")
     def wait_for_element_clickable(self, locator, timeout=15):
         """Espera a que un elemento sea clicable"""
         element= WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable(locator))
         element.click()
     
+    @allure.step("Wait for element visible")
     def wait_for_element_visible(self, locator, timeout=15):
         """Espera hasta que el elemento sea visible y lo retorna"""
         wait = WebDriverWait(self.driver, timeout)
         return wait.until(EC.visibility_of_element_located(locator))
 
+    @allure.step("Wait for element presence")
     def wait_for_element(self, locator, timeout=15, message="Elemento no encontrado"):
         """Espera elemento con formato correcto Appium"""
         
@@ -74,6 +86,7 @@ class BasePage:
         elements_count = len(elements)
         return elements_count
     
+    @allure.step("Check if button is enabled")
     def wait_button_enabled(self, locator, timeout=10):
         try:
             self.wait_for_element_clickable(locator, timeout=timeout)
@@ -81,13 +94,13 @@ class BasePage:
         except:
             return False
             
-
     def wait_button_10(self, locator, timeout=10):
         try:
             self.wait_for_element_clickable(locator, timeout=timeout)
         except:
             pass
 
+    @allure.step("Wait for element clickable with exception handling")
     def wait_for_element_clickable_except(self, locator, timeout=10, message=None):
         wait = WebDriverWait(self.driver, timeout)
         try:
@@ -96,7 +109,7 @@ class BasePage:
             msg = message or f"Elemento no clickable en {timeout}s: {locator}"
             raise TimeoutException(msg) from e
     
-      
+    def _crop_element_screenshot(self, element, savename, r_target, g_target, b_target):  
         img = Image.open(io.BytesIO(self.driver.get_screenshot_as_png()))
 
         scale = img.size[0] / self.driver.get_window_size()['width']
@@ -112,6 +125,7 @@ class BasePage:
         im_crop.save(savename) 
         
         return self.es_color_presente(im_crop, r_target, g_target, b_target)
+    
     def es_color_presente(self, imagen_recortada, r_obj, g_obj, b_obj, tolerancia=40):
         img_rgb = imagen_recortada.convert('RGB')
 
@@ -123,6 +137,7 @@ class BasePage:
                     return True
         return False
 
+    @allure.step("Verify snackbar color RGB({r_esperado},{g_esperado},{b_esperado})")
     def verificar_color_snackbar_efimero(self, r_esperado, g_esperado, b_esperado, factor_pos=0.65, nombre_archivo="toast_check.png"):
         """
         Captura la pantalla completa inmediatamente para evitar el error de elemento Stale
@@ -131,6 +146,7 @@ class BasePage:
         path_screenshot = os.path.join("screenshots", nombre_archivo)
         os.makedirs("screenshots", exist_ok=True)
         self.driver.save_screenshot(path_screenshot)
+        allure.attach.file(path_screenshot, name="Snackbar Screenshot", attachment_type=allure.attachment_type.PNG)
         
         try:
             img = Image.open(path_screenshot)
@@ -147,6 +163,8 @@ class BasePage:
         except Exception as e:
             print(f"Error analizando color: {e}")
             return False
+
+    @allure.step("Scroll to text: {texto}")
     def scroll_to_text(self, texto):
         """Hace scroll hasta encontrar un elemento con el texto exacto."""
         try:
@@ -158,6 +176,8 @@ class BasePage:
         except Exception as e:
             print(f" No se pudo encontrar el texto '{texto}' tras el scroll: {e}")
             return None
+
+    @allure.step("Get toast message")
     def getToast(self, element, timeout=30):
         try:
             self.wait_for_element_visible(element, timeout=10)

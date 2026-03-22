@@ -1,0 +1,49 @@
+→ Permitido usando: ('id', 'com.android.permissioncontroller:id/permission_allow_button')
+→ Verificando 9 vistas: instance(16) a instance(25) ...
+  ✓ instance(16) visible
+  ✓ instance(17) visible
+  ✓ instance(18) visible
+  ✓ instance(19) visible
+  ✓ instance(20) visible
+  ✓ instance(21) visible
+  ✓ instance(22) visible
+  ✓ instance(23) visible
+  ✓ instance(24) visible
+Resultado final: 9/9 visibles → OK
+Botón 'Entrar' enabled: False
+Botón 'Entrar' enabled: False
+✓ Texto de introducción visible
+→ Checkbox no encontrado o no clickable después de 30s: ('class name', 'android.widget.CheckBox')
+Checkbox marcado: True
+Botón 'Siguiente' enabled: False
+✓ Número de teléfono '3214678950' ingresado
+✓ Texto de introducción visible
+Botón 'Siguiente' enabled: False
+✓ Código de verificación '111111' ingresado
+Toast capturado: 'Código verificado correctamente'
+Toast capturado: Código verificado correctamente
+DEBUG: Color detectado en (540, 1560): RGB(208,239,223)
+✓ Texto de introducción visible
+Botón 'Siguiente' enabled: False
+✓ Nombre 'Pedro' ingresado
+Nombre actual: 'Pedro' | Esperado: 'Pedro'
+Botón 'Siguiente' enabled: False
+✓ Apellidos 'Picapiedra' ingresados
+Apellido actual: 'Picapiedra' | Esperado: 'Picapiedra'
+✓ Texto de introducción visible
+Botón 'Activar' enabled: False
+✓ DNI '51704278W' ingresado
+✓ Botón 'Activar' habilitado en 10s
+✓ Botón 'Activar' clicado
+Toast capturado: 'El número de DNI o NIE que has utilizado ya está asociado a un usuario. Si crees que se trata de un error, ponte en contacto con soporte haciendo clic en el icono de "?" para solucionarlo'
+Generando nuevo DNI para prueba: 92579559M
+✓ Campo DNI limpiado
+✓ DNI '92579559M' ingresado
+✓ Botón 'Activar' clicado
+✓ Texto de introducción visible
+✓ Código de amigo 'MARIOM-0956' ingresado
+✓ Botón 'Verificar' clicado
+Toast capturado: 'Código verificado correctamente'
+DEBUG: Color detectado en (540, 2160): RGB(209,240,224)
+✓ Flujo de onboarding completado exitosamente
+✓ Texto de introducción visible
