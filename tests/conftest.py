@@ -30,17 +30,24 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     rep = outcome.get_result()
     
- 
     if rep.when == 'call' and rep.failed:
-        mode = 'a' if hasattr(pytest, 'request') else 'w'
         try:
-         
             if 'driver' in item.fixturenames:
                 web_driver = item.funcargs['driver']
+            
                 allure.attach(
                     web_driver.get_screenshot_as_png(),
                     name="screenshot_error",
                     attachment_type=allure.attachment_type.PNG
                 )
+             
+                try:
+                    allure.attach(
+                        web_driver.page_source,
+                        name="page_source_error",
+                        attachment_type=allure.attachment_type.HTML
+                    )
+                except Exception as e:
+                    print(f"Error al capturar page source: {e}")
         except Exception as e:
             print(f"Error al capturar pantalla: {e}")
