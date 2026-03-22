@@ -65,6 +65,7 @@ class TestOnboarding:
         trayecto_page = TrayectoPage(driver)
         onboarding_page.allow_notifications() 
         dni_repetido = "51704278W"
+        otp_pass = "111111"    
 
         with allure.step("Seleccionar tipo de usuario y acciones"):
             assert onboarding_page.verificar_views_visibles(16, 25) == True, \
@@ -91,7 +92,7 @@ class TestOnboarding:
             assert otp_page.wait_text_visible(timeout=15)
             assert otp_page.verificar_Siguiente_button_enabled() == False, "El botón 'Siguiente' habilitado antes de ingresar número"
 
-            otp_page.enter_Otp_number(OtpLocators.EDIT_TEXT, "111111")
+            otp_page.enter_Otp_number(OtpLocators.EDIT_TEXT, otp_pass )
             otp_page.wait_button_10
             
             assert otp_page.wait_button_enabled(OtpLocators.SIGUIENTE_ALL_BUTTON, timeout=15) == True, "El botón 'Siguiente' no se habilitó después de ingresar el OTP"
