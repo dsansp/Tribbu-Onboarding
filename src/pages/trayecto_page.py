@@ -21,18 +21,15 @@ class TrayectoPage(BasePage):
         """
         locator = TrayectoLocators.TEXT
         try:
-            self.wait(3) # Pausa opcional para estabilización
-            # IMPORTANTE: Guardamos el elemento que devuelve la función de espera
+            self.wait(3) 
             element = self.wait_for_element_visible(
                 locator,
                 timeout=timeout
             )
             print(f"✓ Texto de introducción visible")
-            
-            # Extraemos el texto del ELEMENTO, no del LOCATOR
             return element.text 
             
-        except Exception as e: # Capturamos cualquier error (Timeout, etc)
+        except Exception as e: 
             print(f"✗ Texto de introducción NO visible o error: {str(e)}")
             return False
 
